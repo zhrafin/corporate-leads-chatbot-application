@@ -1,0 +1,30 @@
+{
+  "instructions": "Review each original lead independently. Mark true if at least one source-data quality issue exists, false if none, null if not reviewed. Ignore overdue reminders and missing owners, which are separate categories. Copy this file to evaluation_labels.json and fill it in.",
+  "labels": {
+    "L01": null,
+    "L02": null,
+    "L03": null,
+    "L04": null,
+    "L05": null,
+    "L06": null,
+    "L07": null,
+    "L08": null,
+    "L09": null,
+    "L10": null,
+    "L11": null,
+    "L12": null,
+    "L13": null,
+    "L14": null,
+    "L15": null,
+    "L16": null,
+    "L17": null,
+    "L18": null,
+    "L19": null,
+    "L20": null,
+    "L21": null,
+    "L22": null,
+    "L23": null,
+    "L24": null,
+    "L25": null
+  }
+}
