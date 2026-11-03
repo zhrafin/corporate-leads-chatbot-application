@@ -9,8 +9,17 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 from collections.abc import Callable
 from uuid import uuid4
+
+from dotenv import load_dotenv
+
+# Find the project root directory
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+# Load .env from the project root
+load_dotenv(PROJECT_ROOT / ".env")
 
 from sqlalchemy.orm import Session
 

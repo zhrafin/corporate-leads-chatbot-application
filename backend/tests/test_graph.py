@@ -44,7 +44,7 @@ class GraphConfigurationTests(unittest.TestCase):
         self.assertGreaterEqual(MAX_CONTEXT_TURNS, 1)
 
     def test_default_model_uses_supported_groq_tool_family(self):
-        self.assertEqual(DEFAULT_GROQ_MODEL, "openai/gpt-oss-120b")
+        self.assertEqual(DEFAULT_GROQ_MODEL, "openai/gpt-oss-20b")
 
 
 LANGGRAPH_INSTALLED = (
