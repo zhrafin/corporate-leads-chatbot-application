@@ -319,20 +319,39 @@ class EvaluationReportRead(ApiSchema):
 # ---------------------------------------------------------------
 class ChatRequest(ApiSchema):
     message: str = Field(min_length=1, max_length=2000)
-    session_id: str | None = Field(default=None, max_length=100)
+    # Must match the session IDs accepted by SalesChatbot.ask().
+    session_id: str | None = Field(
+        default=None, min_length=1, max_length=64,
+        pattern=r"^[A-Za-z0-9_-]+$",
+    )
     evaluation_mode: bool = False
 
 
 class ChatResponse(ApiSchema):
     answer: str
-    lead_ids: list[str] = Field(default_factory=list)
-    value_bdt: int | None = None
-    currency: str = "BDT"
-    as_of: date | None = None
+    session_id: str
+    tools_used: list[str] = Field(default_factory=list)
+    used_database_tools: bool = False
+    as_of: date
 
 
 class EmailDraftRequest(ApiSchema):
-    lead_id: str = Field(min_length=1, max_length=20)
+    lead_id: str = Field(
+        min_length=1, max_length=20, pattern=r"^[A-Za-z0-9_-]+$"
+    )
+
+
+class EmailDraftPreview(ApiSchema):
+    """AI preview only. It is NOT a saved or approved email."""
+    lead_id: str
+    company: str
+    recipient_email: str | None
+    subject: str
+    body: str
+    warnings: list[str] = Field(default_factory=list)
+    notes_available: bool
+    requires_review: Literal[True] = True
+    sent: Literal[False] = False
 
 
 class EmailDraftRead(FromDatabase):
