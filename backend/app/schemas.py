@@ -164,6 +164,42 @@ class IssueStatusUpdate(ApiSchema):
     reason: str = Field(min_length=1, max_length=500)
 
 
+class IssueSummaryRead(ApiSchema):
+    """Counts for the saved warnings, not the results of an automatic scan."""
+    total_issue_records: int
+    open_issues: int
+    resolved_issues: int
+    dismissed_issues: int
+    flagged_leads: int
+    data_quality_flagged_leads: int
+    open_by_rule: dict[str, int]
+    open_by_severity: dict[str, int]
+
+
+class DuplicatePairRead(ApiSchema):
+    """A suggested duplicate pair that a user must review before merging."""
+    lead_id_1: str
+    company_1: str
+    lead_id_2: str
+    company_2: str
+    match_type: str
+    matched_fields: list[str]
+
+
+class IssueScanRead(ApiSchema):
+    """Summary returned after the API runs both validation scanners."""
+    as_of: date
+    scanned_leads: int
+    validation_issues_found: int
+    overdue_leads: int
+    duplicate_pairs: int
+    duplicate_leads_flagged: int
+    new_issues_saved: int
+    old_issues_resolved: int
+    open_issues: int
+    data_quality_flagged_leads: int
+
+
 class ActivityRead(FromDatabase):
     id: int
     lead_id: str

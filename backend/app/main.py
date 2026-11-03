@@ -16,7 +16,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from .database import create_tables, get_db
-from .api import leads, pipeline
+from .api import issues, leads, pipeline
 
 
 @asynccontextmanager
@@ -94,3 +94,4 @@ app.include_router(api_router)
 app.include_router(leads.router, prefix="/api")
 app.include_router(leads.owners_router, prefix="/api")
 app.include_router(pipeline.router, prefix="/api")
+app.include_router(issues.router, prefix="/api")
