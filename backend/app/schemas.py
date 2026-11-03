@@ -276,6 +276,45 @@ class WeeklyPrioritySummaryRead(ApiSchema):
 
 
 # ---------------------------------------------------------------
+# Reports and independently reviewed evaluation labels
+# ---------------------------------------------------------------
+class ReportSummaryRead(ApiSchema):
+    as_of: date
+    dashboard: DashboardRead
+    issues: IssueSummaryRead
+    pending_duplicate_pairs: int
+    merged_records: int
+    note: str
+
+
+class EvaluationMetricsRead(ApiSchema):
+    true_positives: int
+    false_positives: int
+    false_negatives: int
+    true_negatives: int
+    correctly_classified_leads: int
+    accuracy: float | None
+    precision: float | None
+    recall: float | None
+
+
+class EvaluationReportRead(ApiSchema):
+    as_of: date
+    source_file: str
+    original_leads: int
+    source_data_flagged_leads: int
+    flagged_lead_ids: list[str]
+    overdue_leads: int
+    duplicate_pairs: list[DuplicatePairRead]
+    invalid_date_order_leads: list[str]
+    counts_by_rule: dict[str, int]
+    verification_status: Literal["awaiting_review", "partial", "complete"]
+    manually_reviewed_leads: int
+    metrics: EvaluationMetricsRead | None
+    note: str
+
+
+# ---------------------------------------------------------------
 # AI chat and follow-up email requests (for later LangGraph steps)
 # ---------------------------------------------------------------
 class ChatRequest(ApiSchema):
