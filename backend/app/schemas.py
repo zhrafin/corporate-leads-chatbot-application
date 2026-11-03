@@ -224,6 +224,21 @@ class PriorityLeadRead(ApiSchema):
     notes: str | None
 
 
+class OverdueSummaryRead(ApiSchema):
+    as_of: date
+    overdue_leads: int
+    overdue_value_bdt: int
+
+
+class WeeklyPrioritySummaryRead(ApiSchema):
+    as_of: date
+    currency: str
+    overdue_active_leads: int
+    overdue_value_bdt: int
+    top_leads: list[PriorityLeadRead]
+    note: str
+
+
 # ---------------------------------------------------------------
 # AI chat and follow-up email requests (for later LangGraph steps)
 # ---------------------------------------------------------------

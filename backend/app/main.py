@@ -16,6 +16,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from .database import create_tables, get_db
+from .api import leads, pipeline
 
 
 @asynccontextmanager
@@ -90,7 +91,6 @@ def health_check(db: Session = Depends(get_db)):
 
 
 app.include_router(api_router)
-
-# from .api import leads
-# app.include_router(leads.router, prefix="/api")
-
+app.include_router(leads.router, prefix="/api")
+app.include_router(leads.owners_router, prefix="/api")
+app.include_router(pipeline.router, prefix="/api")
