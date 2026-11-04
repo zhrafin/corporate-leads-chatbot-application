@@ -355,8 +355,17 @@
               <h2 id="reports-heading">Reports &amp; Evaluation</h2>
               <p class="page-description">Review the pipeline, check data quality, and export current lead records.</p>
             </div>
-            <button id="export-pipeline" type="button" class="button button--primary">Export CSV</button>
+            <div class="page-header__actions reports-actions">
+              <button id="refresh-reports" type="button" class="button button--secondary">Refresh reports</button>
+              <label class="checkbox-field" for="report-include-merged">
+                <input id="report-include-merged" type="checkbox">
+                Export merged records too
+              </label>
+              <button id="export-pipeline" type="button" class="button button--primary">Export CSV</button>
+            </div>
           </div>
+          <p id="reports-status" class="notice" role="status" aria-live="polite">Reports will load from FastAPI.</p>
+          <p id="export-feedback" class="field-hint" role="status" aria-live="polite"></p>
           <div class="content-grid">
             <article class="panel">
               <h3>Pipeline summary</h3>
@@ -364,7 +373,9 @@
                 <div><dt>Current leads</dt><dd id="report-current-leads">—</dd></div>
                 <div><dt>Active pipeline value</dt><dd id="report-pipeline-value">—</dd></div>
                 <div><dt>Overdue follow-ups</dt><dd id="report-overdue">—</dd></div>
-                <div><dt>Open warnings</dt><dd id="report-issues">—</dd></div>
+                <div><dt>Open warnings (last scan)</dt><dd id="report-issues">—</dd></div>
+                <div><dt>Pending duplicate pairs</dt><dd id="report-pending-duplicates">—</dd></div>
+                <div><dt>Merged records</dt><dd id="report-merged-records">—</dd></div>
               </dl>
             </article>
             <article class="panel">
@@ -373,7 +384,11 @@
               <dl class="detail-list">
                 <div><dt>Original lead records</dt><dd id="evaluation-total">—</dd></div>
                 <div><dt>Source-data flagged leads</dt><dd id="evaluation-flagged">—</dd></div>
+                <div><dt>Manually reviewed</dt><dd id="evaluation-reviewed">—</dd></div>
+                <div><dt>Correctly classified</dt><dd id="evaluation-correct">Not verified</dd></div>
                 <div><dt>Verified accuracy</dt><dd id="evaluation-accuracy">Not verified</dd></div>
+                <div><dt>Precision</dt><dd id="evaluation-precision">Not verified</dd></div>
+                <div><dt>Recall</dt><dd id="evaluation-recall">Not verified</dd></div>
               </dl>
               <p class="muted" id="evaluation-note">An accuracy percentage requires completed manual labels.</p>
             </article>
@@ -386,7 +401,7 @@
           </div>
           <div class="panel">
             <div class="panel__header"><h3>Weekly follow-up summary</h3></div>
-            <p class="muted">Priority facts come from Python rules. AI writing may be added later.</p>
+            <p class="muted">Priority facts come from Python rules. This section is not AI-written.</p>
             <div id="weekly-summary"><p class="empty-state">Weekly follow-up data will appear here.</p></div>
           </div>
         </section>
@@ -527,5 +542,6 @@
   <script src="js/leads.js" defer></script>
   <script src="js/validation.js" defer></script>
   <script src="js/chatbot.js" defer></script>
+  <script src="js/reports.js" defer></script>
 </body>
 </html>

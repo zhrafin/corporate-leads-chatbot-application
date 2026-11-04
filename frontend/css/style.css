@@ -1,16 +1,3 @@
-/*
- * BIAI Corporate Leads Pipeline - Step 21
- * Plain CSS. No framework, CDN, or external font is required.
- *
- * Sections:
- * 1. Colors and common elements
- * 2. Sidebar and page layout
- * 3. Cards, tables, and pipeline board
- * 4. Chat, forms, and dialogs
- * 5. Responsive and accessibility rules
- */
-
-/* 1. Colors and common elements ---------------------------------------- */
 :root {
   color-scheme: light;
   --page-bg: #f4f7fc;
@@ -1422,3 +1409,33 @@ button.pipeline-card:hover {
 #quality-scan-status.is-error,
 #review-issue-feedback.is-error,
 #merge-status.is-error { color: var(--danger); }
+
+/* Step 27: Reports and evaluation. */
+.reports-actions { align-items: center; }
+.reports-actions .checkbox-field { margin: 0; font-size: 0.81rem; }
+#export-feedback { margin: 4px 0 16px; }
+#reports-status.is-error { color: var(--danger); }
+.report-finding-summary {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: var(--surface-muted);
+  border-radius: 9px;
+}
+.report-finding-summary p { margin: 0; font-size: 0.86rem; }
+#evaluation-findings h4 { margin: 16px 0 8px; }
+.report-findings-list { margin: 0 0 14px; padding-left: 22px; line-height: 1.7; }
+.report-findings-list li { overflow-wrap: anywhere; }
+.weekly-summary__overview {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+}
+.weekly-summary__overview p { margin: 4px 0; }
+.weekly-priority-list { margin-bottom: 16px; }
+.weekly-priority-list p { margin: 5px 0; }
+@media (max-width: 700px) {
+  .reports-actions { align-items: stretch; }
+  .reports-actions .button { align-self: auto; }
+}
