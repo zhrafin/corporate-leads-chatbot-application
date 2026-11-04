@@ -1,3 +1,16 @@
+/*
+ * BIAI Corporate Leads Pipeline - Step 21
+ * Plain CSS. No framework, CDN, or external font is required.
+ *
+ * Sections:
+ * 1. Colors and common elements
+ * 2. Sidebar and page layout
+ * 3. Cards, tables, and pipeline board
+ * 4. Chat, forms, and dialogs
+ * 5. Responsive and accessibility rules
+ */
+
+/* 1. Colors and common elements ---------------------------------------- */
 :root {
   color-scheme: light;
   --page-bg: #f4f7fc;
@@ -1000,6 +1013,7 @@ button.pipeline-card:hover {
 
 .chat-message p {
   margin: 0 0 8px;
+  white-space: pre-wrap; /* Keep line breaks in AI answers readable. */
 }
 
 .chat-message p:last-child {
@@ -1062,6 +1076,42 @@ button.pipeline-card:hover {
 .chat-suggestions .muted {
   margin-bottom: 0;
   font-size: 0.78rem;
+}
+
+
+/* Step 26: Chatbot state and response notes. */
+.chat-message strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.chat-message__meta {
+  display: block;
+  margin-top: 10px;
+  color: var(--text-muted, #64748b);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.chat-message--pending {
+  opacity: 0.75;
+  font-style: italic;
+}
+
+.chat-message--error {
+  border-color: #edb4ba;
+  background: #fff2f3;
+  color: #8f2834;
+}
+
+#chat-status.is-error {
+  color: var(--danger);
+}
+
+.suggestion-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
 }
 
 /* Native <dialog> gives keyboard and screen-reader support. */
