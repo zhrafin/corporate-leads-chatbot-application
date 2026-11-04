@@ -470,11 +470,40 @@
     <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Close</button></form>
   </dialog>
 
+  <!-- Review validation warnings. Users provide a reason for their decision. -->
+  <dialog id="issue-review-dialog" class="modal" aria-labelledby="review-issue-title">
+    <h2 id="review-issue-title">Review data issue</h2>
+    <p id="review-issue-details" class="muted"></p>
+    <form id="issue-review-form">
+      <div class="field">
+        <label for="review-issue-status">Decision</label>
+        <select id="review-issue-status" required>
+          <option value="dismissed">Dismiss warning after checking</option>
+          <option value="resolved">Mark resolved after correcting record</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="review-issue-reason">Review reason</label>
+        <textarea id="review-issue-reason" rows="3" maxlength="500" required></textarea>
+      </div>
+      <p id="review-issue-feedback" class="field-hint" role="status" aria-live="polite"></p>
+      <div class="modal__actions">
+        <button id="submit-issue-review" class="button button--primary" type="submit">Save review</button>
+      </div>
+    </form>
+    <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Cancel</button></form>
+  </dialog>
+
   <!-- Review before merging. Source records are preserved by the backend. -->
   <dialog id="merge-dialog" class="modal" aria-labelledby="merge-dialog-title">
     <h2 id="merge-dialog-title">Review duplicate merge</h2>
     <p id="merge-pair-description">Review the two records before merging.</p>
     <form id="merge-form">
+      <div class="field">
+        <label for="merge-keep-choice">Which lead should be kept?</label>
+        <select id="merge-keep-choice" required></select>
+      </div>
+      <div id="merge-compare" class="table-scroll" aria-label="Compare duplicate lead records"></div>
       <div class="field"><label for="merge-surviving-id">Keep lead ID</label><input id="merge-surviving-id" name="surviving_id" readonly required></div>
       <div class="field"><label for="merge-duplicate-id">Merge duplicate ID</label><input id="merge-duplicate-id" name="duplicate_id" readonly required></div>
       <div class="field"><label for="merge-reason">Reason for merge</label><textarea id="merge-reason" name="reason" maxlength="1000" rows="3" required></textarea></div>
@@ -483,7 +512,7 @@
         I have checked both records and confirm the merge.
       </label>
       <p id="merge-status" class="field-hint" role="status" aria-live="polite"></p>
-      <button class="button button--primary" type="submit">Confirm merge</button>
+      <button id="confirm-merge-button" class="button button--primary" type="submit">Confirm merge</button>
     </form>
     <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Cancel</button></form>
   </dialog>
@@ -495,6 +524,7 @@
   <script src="js/api.js" defer></script>
   <script src="js/dashboard.js" defer></script>
   <script src="js/leads.js" defer></script>
-  <!-- Next files: js/validation.js, js/chatbot.js -->
+  <script src="js/validation.js" defer></script>
+  <!-- Next file: js/chatbot.js -->
 </body>
 </html>
