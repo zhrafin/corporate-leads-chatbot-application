@@ -133,7 +133,10 @@
               <h2 id="pipeline-heading">Sales Pipeline</h2>
               <p class="page-description">See deal progress and update contact details, ownership, and stages.</p>
             </div>
-            <button id="add-lead-button" class="button button--primary" type="button">+ Add lead</button>
+            <div class="page-header__actions">
+              <button id="add-owner-button" class="button button--secondary" type="button">+ Add owner</button>
+              <button id="add-lead-button" class="button button--primary" type="button">+ Add lead</button>
+            </div>
           </div>
 
           <div class="filter-bar" role="group" aria-label="Lead filters">
@@ -440,6 +443,18 @@
     </section>
   </dialog>
 
+  <!-- Employees must exist before a lead can be assigned an owner. -->
+  <dialog id="owner-dialog" class="modal" aria-labelledby="owner-dialog-title">
+    <h2 id="owner-dialog-title">Add an employee</h2>
+    <form id="owner-form">
+      <div class="field"><label for="owner-name">Name</label><input id="owner-name" name="name" maxlength="120" required></div>
+      <div class="field"><label for="owner-email">Email (optional)</label><input id="owner-email" name="email" maxlength="255" type="email"></div>
+      <p id="owner-form-status" class="field-hint" role="status" aria-live="polite"></p>
+      <div class="modal__actions"><button id="save-owner" class="button button--primary" type="submit">Save employee</button></div>
+    </form>
+    <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Close</button></form>
+  </dialog>
+
   <!-- An AI-generated draft must be reviewed. No send button is provided. -->
   <dialog id="email-dialog" class="modal" aria-labelledby="email-dialog-title">
     <h2 id="email-dialog-title">Follow-up email draft</h2>
@@ -479,6 +494,7 @@
   <!-- Load api.js first. dashboard.js uses its shared BIAI_API methods. -->
   <script src="js/api.js" defer></script>
   <script src="js/dashboard.js" defer></script>
-  <!-- Next files: js/leads.js, js/validation.js, js/chatbot.js -->
+  <script src="js/leads.js" defer></script>
+  <!-- Next files: js/validation.js, js/chatbot.js -->
 </body>
 </html>
