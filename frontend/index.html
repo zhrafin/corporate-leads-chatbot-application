@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BIAI Corporate Leads Pipeline: manage leads, follow-ups, data quality, and AI-assisted sales conversations.">
+  <title>BIAI | Corporate Leads Pipeline</title>
+
+  <!-- Step 21 will add frontend/css/style.css here. -->
+  <!-- Future JavaScript files will be loaded at the end of this document. -->
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="app-shell">
+    <!-- Left navigation. Each link works as an HTML anchor even without JavaScript. -->
+    <aside class="sidebar" aria-label="Application sidebar">
+      <div class="sidebar__brand">
+        <span class="brand-mark" aria-hidden="true">B</span>
+        <div>
+          <p class="brand-name">BIAI</p>
+          <p class="brand-description">Corporate Leads Pipeline</p>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Main navigation">
+        <p class="nav-heading">WORKSPACE</p>
+        <a class="nav-link is-active" href="#dashboard" data-view="dashboard" aria-current="page">
+          <span aria-hidden="true">▦</span> Dashboard
+        </a>
+        <a class="nav-link" href="#pipeline" data-view="pipeline">
+          <span aria-hidden="true">▤</span> Sales Pipeline
+        </a>
+        <a class="nav-link" href="#data-quality" data-view="data-quality">
+          <span aria-hidden="true">◇</span> Data Quality
+        </a>
+        <a class="nav-link" href="#assistant" data-view="assistant">
+          <span aria-hidden="true">✧</span> AI Assistant
+        </a>
+        <a class="nav-link" href="#reports" data-view="reports">
+          <span aria-hidden="true">▥</span> Reports
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <p class="sidebar__caption">Local demonstration</p>
+        <p class="sidebar__hint">BIAI training sales · Values in BDT</p>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="topbar__heading">
+          <p class="eyebrow">SALES WORKSPACE</p>
+          <h1>BIAI Sales Pipeline</h1>
+        </div>
+        <div class="topbar__actions">
+          <span id="api-status" class="connection-status" role="status" aria-live="polite">
+            API status not checked
+          </span>
+          <label class="mode-toggle" for="evaluation-mode">
+            <input id="evaluation-mode" name="evaluation-mode" type="checkbox">
+            Sample date: 1 Nov 2026
+          </label>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <!-- SCREEN 1: DASHBOARD -->
+        <section id="dashboard" class="page-view is-active" data-page="dashboard" aria-labelledby="dashboard-heading">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">OVERVIEW</p>
+              <h2 id="dashboard-heading">Sales Dashboard</h2>
+              <p class="page-description">Track your deals, follow-ups, and team workload in one place.</p>
+            </div>
+            <button id="refresh-dashboard" class="button button--secondary" type="button">Refresh data</button>
+          </div>
+
+          <p class="notice" id="dashboard-date-note" role="status" aria-live="polite">
+            Date-based statistics will load after JavaScript is connected.
+          </p>
+          <div class="kpi-grid" aria-label="Dashboard key figures">
+            <article class="kpi-card">
+              <h3>Total leads</h3>
+              <p class="kpi-value" id="metric-total-leads">—</p>
+              <p class="kpi-caption">Current leads, excluding confirmed merges</p>
+            </article>
+            <article class="kpi-card">
+              <h3>Active pipeline value</h3>
+              <p class="kpi-value" id="metric-active-value">—</p>
+              <p class="kpi-caption">BDT · Excludes Paid and Lost</p>
+            </article>
+            <article class="kpi-card">
+              <h3>Overdue follow-ups</h3>
+              <p class="kpi-value" id="metric-overdue">—</p>
+              <p class="kpi-caption">Active leads needing follow-up</p>
+            </article>
+            <article class="kpi-card">
+              <h3>Unassigned leads</h3>
+              <p class="kpi-value" id="metric-unassigned">—</p>
+              <p class="kpi-caption">Leads without a responsible owner</p>
+            </article>
+          </div>
+
+          <div class="content-grid content-grid--dashboard">
+            <article class="panel">
+              <div class="panel__header">
+                <h3>Deals by stage</h3>
+                <p class="muted">Seven official BIAI stages</p>
+              </div>
+              <div id="dashboard-stages" class="stage-summary" aria-live="polite">
+                <p class="empty-state">Stage counts will appear here.</p>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel__header">
+                <h3>Priority follow-ups</h3>
+                <a href="#pipeline" data-view="pipeline">View pipeline</a>
+              </div>
+              <ol id="dashboard-priorities" class="priority-list" aria-live="polite">
+                <li class="empty-state">Priority leads will appear here.</li>
+              </ol>
+            </article>
+          </div>
+        </section>
+
+        <!-- SCREEN 2: PIPELINE AND LEAD MANAGEMENT -->
+        <section id="pipeline" class="page-view" data-page="pipeline" aria-labelledby="pipeline-heading">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">LEAD MANAGEMENT</p>
+              <h2 id="pipeline-heading">Sales Pipeline</h2>
+              <p class="page-description">See deal progress and update contact details, ownership, and stages.</p>
+            </div>
+            <button id="add-lead-button" class="button button--primary" type="button">+ Add lead</button>
+          </div>
+
+          <div class="filter-bar" role="group" aria-label="Lead filters">
+            <div class="field">
+              <label for="lead-search">Search company</label>
+              <input id="lead-search" type="search" placeholder="Company name" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="lead-stage-filter">Sales stage</label>
+              <select id="lead-stage-filter">
+                <option value="">All stages</option>
+                <option value="New">New</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Proposal">Proposal</option>
+                <option value="Invoice sent">Invoice sent</option>
+                <option value="Paid">Paid</option>
+                <option value="Lost">Lost</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="lead-owner-filter">Assigned owner</label>
+              <select id="lead-owner-filter">
+                <option value="">All owners</option>
+                <option value="unassigned">Unassigned</option>
+                <!-- JavaScript will insert saved owners. -->
+              </select>
+            </div>
+            <label class="checkbox-field" for="include-merged">
+              <input id="include-merged" type="checkbox">
+              Include merged records
+            </label>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header">
+              <h3>Pipeline board</h3>
+              <p class="muted">Five active stages and two final stages</p>
+            </div>
+            <div id="pipeline-board" class="pipeline-board" aria-label="Sales stages">
+              <section class="stage-column" data-stage="New" aria-labelledby="stage-new-title">
+                <h4 id="stage-new-title">New <span id="count-new">—</span></h4>
+                <div id="cards-new" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column" data-stage="Contacted" aria-labelledby="stage-contacted-title">
+                <h4 id="stage-contacted-title">Contacted <span id="count-contacted">—</span></h4>
+                <div id="cards-contacted" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column" data-stage="Meeting" aria-labelledby="stage-meeting-title">
+                <h4 id="stage-meeting-title">Meeting <span id="count-meeting">—</span></h4>
+                <div id="cards-meeting" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column" data-stage="Proposal" aria-labelledby="stage-proposal-title">
+                <h4 id="stage-proposal-title">Proposal <span id="count-proposal">—</span></h4>
+                <div id="cards-proposal" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column" data-stage="Invoice sent" aria-labelledby="stage-invoice-title">
+                <h4 id="stage-invoice-title">Invoice sent <span id="count-invoice">—</span></h4>
+                <div id="cards-invoice" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column stage-column--final" data-stage="Paid" aria-labelledby="stage-paid-title">
+                <h4 id="stage-paid-title">Paid <span id="count-paid">—</span></h4>
+                <div id="cards-paid" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+              <section class="stage-column stage-column--final" data-stage="Lost" aria-labelledby="stage-lost-title">
+                <h4 id="stage-lost-title">Lost <span id="count-lost">—</span></h4>
+                <div id="cards-lost" class="stage-cards"><p class="empty-state">No cards loaded.</p></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header">
+              <h3>All company leads</h3>
+              <span id="lead-table-count" class="muted">Loading records…</span>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="leads-table">
+                <caption class="visually-hidden">Company leads with contact, industry, stage, value, owner and follow-up date</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Lead</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Industry</th>
+                    <th scope="col">Stage</th>
+                    <th scope="col">Value (BDT)</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Next follow-up</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="leads-table-body">
+                  <tr><td colspan="8" class="empty-state">Leads will appear after the frontend connects to FastAPI.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 3: DATA QUALITY -->
+        <section id="data-quality" class="page-view" data-page="data-quality" aria-labelledby="quality-heading">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">DATA QUALITY</p>
+              <h2 id="quality-heading">Data Quality Center</h2>
+              <p class="page-description">Review missing contacts, duplicates, invalid dates, and other warnings.</p>
+            </div>
+            <button id="run-quality-scan" class="button button--primary" type="button">Run validation scan</button>
+          </div>
+
+          <p id="quality-scan-status" class="notice" role="status" aria-live="polite">
+            Scan results will appear here. Scanning never deletes records.
+          </p>
+          <div class="kpi-grid kpi-grid--small">
+            <article class="kpi-card"><h3>Open warnings</h3><p class="kpi-value" id="quality-open">—</p></article>
+            <article class="kpi-card"><h3>Source-data flagged leads</h3><p class="kpi-value" id="quality-flagged">—</p></article>
+            <article class="kpi-card"><h3>Duplicate pairs</h3><p class="kpi-value" id="quality-duplicates">—</p></article>
+            <article class="kpi-card"><h3>Date-order errors</h3><p class="kpi-value" id="quality-dates">—</p></article>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header"><h3>Review warnings</h3></div>
+            <div class="filter-bar" role="group" aria-label="Issue filters">
+              <div class="field">
+                <label for="issue-status-filter">Status</label>
+                <select id="issue-status-filter">
+                  <option value="open">Open</option>
+                  <option value="resolved">Resolved</option>
+                  <option value="dismissed">Dismissed</option>
+                  <option value="all">All</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="issue-rule-filter">Issue type</label>
+                <select id="issue-rule-filter"><option value="">All issue types</option></select>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="issues-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Lead ID</th>
+                    <th scope="col">Issue</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Severity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Review</th>
+                  </tr>
+                </thead>
+                <tbody id="issues-table-body">
+                  <tr><td colspan="6" class="empty-state">Saved issues will appear here.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header">
+              <div>
+                <h3>Duplicate candidates</h3>
+                <p class="muted">Review matching companies before confirming a merge.</p>
+              </div>
+            </div>
+            <div id="duplicate-pairs" class="duplicate-list" aria-live="polite">
+              <p class="empty-state">Duplicate candidates will appear here.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCREEN 4: AI ASSISTANT -->
+        <section id="assistant" class="page-view" data-page="assistant" aria-labelledby="assistant-heading">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">AI ASSISTANT</p>
+              <h2 id="assistant-heading">Ask about your pipeline</h2>
+              <p class="page-description">Ask in plain English. The assistant uses read-only tools and SQLite records.</p>
+            </div>
+          </div>
+          <div class="chat-layout">
+            <div class="panel chat-panel">
+              <div id="chat-messages" class="chat-messages" role="log" aria-live="polite" aria-label="Chat history">
+                <div class="chat-message chat-message--assistant">
+                  <p><strong>BIAI Assistant</strong></p>
+                  <p>Hello! Ask me about overdue follow-ups, deal totals, company details, or sales priorities.</p>
+                </div>
+              </div>
+              <form id="chat-form" class="chat-form">
+                <label for="chat-question">Your question</label>
+                <div class="chat-form__row">
+                  <input id="chat-question" name="message" type="text" maxlength="2000"
+                         placeholder="Which deals are overdue?" required autocomplete="off">
+                  <button id="send-chat" class="button button--primary" type="submit">Send</button>
+                </div>
+                <p id="chat-status" class="field-hint" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+            <aside class="panel chat-suggestions" aria-labelledby="suggestions-heading">
+              <h3 id="suggestions-heading">Try a question</h3>
+              <div class="suggestion-list">
+                <button type="button" class="suggestion-button" data-question="Which deals are overdue?">Which deals are overdue?</button>
+                <button type="button" class="suggestion-button" data-question="What is the total value in Proposal stage?">Total value in Proposal?</button>
+                <button type="button" class="suggestion-button" data-question="Which companies have missing contact details?">Missing contact details?</button>
+                <button type="button" class="suggestion-button" data-question="Which five leads need attention first?">Which leads should we chase first?</button>
+              </div>
+              <p class="muted">The AI does not change database records or send emails.</p>
+            </aside>
+          </div>
+        </section>
+
+        <!-- SCREEN 5: REPORTS -->
+        <section id="reports" class="page-view" data-page="reports" aria-labelledby="reports-heading">
+          <div class="page-header">
+            <div>
+              <p class="eyebrow">REPORTING</p>
+              <h2 id="reports-heading">Reports &amp; Evaluation</h2>
+              <p class="page-description">Review the pipeline, check data quality, and export current lead records.</p>
+            </div>
+            <button id="export-pipeline" type="button" class="button button--primary">Export CSV</button>
+          </div>
+          <div class="content-grid">
+            <article class="panel">
+              <h3>Pipeline summary</h3>
+              <dl class="detail-list">
+                <div><dt>Current leads</dt><dd id="report-current-leads">—</dd></div>
+                <div><dt>Active pipeline value</dt><dd id="report-pipeline-value">—</dd></div>
+                <div><dt>Overdue follow-ups</dt><dd id="report-overdue">—</dd></div>
+                <div><dt>Open warnings</dt><dd id="report-issues">—</dd></div>
+              </dl>
+            </article>
+            <article class="panel">
+              <h3>Original CSV evaluation</h3>
+              <p>Compare the detected problems against a manually reviewed answer key for all 25 original rows.</p>
+              <dl class="detail-list">
+                <div><dt>Original lead records</dt><dd id="evaluation-total">—</dd></div>
+                <div><dt>Source-data flagged leads</dt><dd id="evaluation-flagged">—</dd></div>
+                <div><dt>Verified accuracy</dt><dd id="evaluation-accuracy">Not verified</dd></div>
+              </dl>
+              <p class="muted" id="evaluation-note">An accuracy percentage requires completed manual labels.</p>
+            </article>
+          </div>
+          <div class="panel">
+            <div class="panel__header"><h3>Evaluation findings</h3></div>
+            <div id="evaluation-findings" aria-live="polite">
+              <p class="empty-state">The evaluation findings will appear here.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__header"><h3>Weekly follow-up summary</h3></div>
+            <p class="muted">Priority facts come from Python rules. AI writing may be added later.</p>
+            <div id="weekly-summary"><p class="empty-state">Weekly follow-up data will appear here.</p></div>
+          </div>
+        </section>
+      </main>
+      <footer class="app-footer">
+        <p>BIAI Corporate Leads Pipeline · Demo data is fictional · Currency: BDT</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Shared lead editor for creating and updating records. -->
+  <dialog id="lead-dialog" class="modal" aria-labelledby="lead-dialog-title">
+    <div class="modal__heading">
+      <h2 id="lead-dialog-title">Lead details</h2>
+      <p id="lead-dialog-subtitle" class="muted">Edit a lead or create a new one.</p>
+    </div>
+    <form id="lead-form">
+      <div class="form-grid">
+        <div class="field"><label for="edit-lead-id">Lead ID</label><input id="edit-lead-id" name="lead_id" maxlength="20" required></div>
+        <div class="field"><label for="edit-company">Company</label><input id="edit-company" name="company" maxlength="200" required></div>
+        <div class="field"><label for="edit-industry">Industry</label><input id="edit-industry" name="industry" maxlength="120"></div>
+        <div class="field"><label for="edit-source">Lead source</label><input id="edit-source" name="source" maxlength="100"></div>
+        <div class="field"><label for="edit-contact-name">Contact name</label><input id="edit-contact-name" name="contact_name" maxlength="120"></div>
+        <div class="field"><label for="edit-contact-role">Contact role</label><input id="edit-contact-role" name="contact_role" maxlength="120"></div>
+        <div class="field"><label for="edit-contact-email">Contact email</label><input id="edit-contact-email" name="contact_email" maxlength="255"></div>
+        <div class="field"><label for="edit-contact-phone">Contact phone</label><input id="edit-contact-phone" name="contact_phone" maxlength="40"></div>
+        <div class="field">
+          <label for="edit-stage">Stage</label>
+          <select id="edit-stage" name="stage" required>
+            <option value="New">New</option><option value="Contacted">Contacted</option>
+            <option value="Meeting">Meeting</option><option value="Proposal">Proposal</option>
+            <option value="Invoice sent">Invoice sent</option><option value="Paid">Paid</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+        <div class="field"><label for="edit-value">Deal value (BDT)</label><input id="edit-value" name="deal_value_bdt" type="number" min="0" step="1"></div>
+        <div class="field">
+          <label for="edit-owner">Assigned owner</label>
+          <select id="edit-owner" name="owner_id"><option value="">Unassigned</option></select>
+        </div>
+        <div class="field"><label for="edit-last-contact">Last contact</label><input id="edit-last-contact" name="last_contact" type="date"></div>
+        <div class="field"><label for="edit-follow-up">Next follow-up</label><input id="edit-follow-up" name="next_follow_up" type="date"></div>
+        <div class="field field--full"><label for="edit-notes">Sales notes</label><textarea id="edit-notes" name="notes" rows="4"></textarea></div>
+      </div>
+      <p id="lead-form-status" class="field-hint" role="status" aria-live="polite"></p>
+      <div class="modal__actions">
+        <button id="generate-lead-email" class="button button--secondary" type="button">Draft follow-up email</button>
+        <button id="save-lead" class="button button--primary" type="submit">Save lead</button>
+      </div>
+    </form>
+    <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Close</button></form>
+    <section aria-labelledby="lead-activity-heading" class="activity-section">
+      <h3 id="lead-activity-heading">Activity history</h3>
+      <div id="lead-activities"><p class="empty-state">No activity loaded.</p></div>
+    </section>
+  </dialog>
+
+  <!-- An AI-generated draft must be reviewed. No send button is provided. -->
+  <dialog id="email-dialog" class="modal" aria-labelledby="email-dialog-title">
+    <h2 id="email-dialog-title">Follow-up email draft</h2>
+    <p class="muted">Review and edit the generated email before copying it.</p>
+    <p id="email-warnings" class="notice" role="status" aria-live="polite"></p>
+    <div class="field"><label for="email-recipient">To</label><input id="email-recipient" type="text" readonly></div>
+    <div class="field"><label for="email-subject">Subject</label><input id="email-subject" maxlength="200"></div>
+    <div class="field"><label for="email-body">Message</label><textarea id="email-body" rows="12"></textarea></div>
+    <p id="email-status" role="status" aria-live="polite" class="field-hint"></p>
+    <div class="modal__actions">
+      <button id="copy-email" class="button button--primary" type="button">Copy draft</button>
+    </div>
+    <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Close</button></form>
+  </dialog>
+
+  <!-- Review before merging. Source records are preserved by the backend. -->
+  <dialog id="merge-dialog" class="modal" aria-labelledby="merge-dialog-title">
+    <h2 id="merge-dialog-title">Review duplicate merge</h2>
+    <p id="merge-pair-description">Review the two records before merging.</p>
+    <form id="merge-form">
+      <div class="field"><label for="merge-surviving-id">Keep lead ID</label><input id="merge-surviving-id" name="surviving_id" readonly required></div>
+      <div class="field"><label for="merge-duplicate-id">Merge duplicate ID</label><input id="merge-duplicate-id" name="duplicate_id" readonly required></div>
+      <div class="field"><label for="merge-reason">Reason for merge</label><textarea id="merge-reason" name="reason" maxlength="1000" rows="3" required></textarea></div>
+      <label class="checkbox-field" for="merge-confirmed">
+        <input id="merge-confirmed" name="confirmed" type="checkbox" required>
+        I have checked both records and confirm the merge.
+      </label>
+      <p id="merge-status" class="field-hint" role="status" aria-live="polite"></p>
+      <button class="button button--primary" type="submit">Confirm merge</button>
+    </form>
+    <form method="dialog" class="modal__close"><button type="submit" class="button button--quiet">Cancel</button></form>
+  </dialog>
+
+  <!-- A short temporary message area for future JavaScript feedback. -->
+  <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+
+  <!-- Planned scripts (created in later steps):
+    <script src="js/api.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+    <script src="js/leads.js" defer></script>
+    <script src="js/validation.js" defer></script>
+    <script src="js/chatbot.js" defer></script>
+  -->
+</body>
+</html>
