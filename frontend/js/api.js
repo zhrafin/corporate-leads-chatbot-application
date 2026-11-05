@@ -2,8 +2,8 @@
 (function (window) {
   "use strict";
 
-  const baseUrl = (window.BIAI_API_BASE_URL || "http://127.0.0.1:8000/api")
-    .replace(/\/+$/, "");
+  const baseUrl = (window.BIAI_API_BASE_URL || "https://corporate-leads-chatbot-application.onrender.com/api")
+   .replace(/\/+$/, "");
 
   // A helpful error type lets the UI distinguish HTTP errors from connection errors.
   class ApiError extends Error {

@@ -14,6 +14,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 from .database import create_tables, get_db
 from .api import ai, issues, leads, pipeline, reports
@@ -27,6 +29,11 @@ async def lifespan(app: FastAPI):
     Importing leads is a separate, user-controlled step.
     """
     create_tables()
+
+    # Import the fictional sample leads.
+    from .services.csv_importer import import_csv
+    import_csv()
+
     yield
 
 
@@ -62,7 +69,7 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["System"])
+@app.get("/api/info", tags=["System"])
 def home():
     """Basic information about this backend."""
     return {
@@ -97,3 +104,12 @@ app.include_router(pipeline.router, prefix="/api")
 app.include_router(issues.router, prefix="/api")
 app.include_router(reports.router, prefix="/api")
 app.include_router(ai.router, prefix="/api")
+
+# Serve the frontend from the same FastAPI application.
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+
+app.mount(
+    "/",
+    StaticFiles(directory=str(FRONTEND_DIR), html=True),
+    name="frontend",
+)

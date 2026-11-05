@@ -26,3 +26,4 @@ langchain-tavily
 faiss-cpu==1.14.3
 sqlalchemy
 httpx
+pandas
